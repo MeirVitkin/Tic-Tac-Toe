@@ -1,0 +1,7 @@
+@import '../../mixin';
+
+.container{
+    flex-direction: column;
+    gap: 2rem;
+    @extend .flex-center;
+}
