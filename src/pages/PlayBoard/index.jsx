@@ -30,7 +30,7 @@ export const PlayBoard = ({ }) => {
             setBoard(newBoard);
             setIsXTurn(!isXTurn);
             setSteps(steps + 1);
-            const winner = whoWonAtRow(newBoard, i)
+            const winner = checkBoard(newBoard, i)
             winner&& console.log( '@@@@@@@ WINNER @@@@@@@@@@@@@',winner);
         };
     }
@@ -38,26 +38,73 @@ export const PlayBoard = ({ }) => {
 
 
 
-    const whoWonAtColumn = (newBoard, index) => {
-        index = index % size;
+    const checkColumn = (newBoard, colume) => {
+        const player = isXTurn ? 'X' : 'O'
         for (let i = 0; i < size; i++) {
-            if (newBoard[index] !== (isXTurn ? 'X' : 'O')) return
-            index += size;
+            if (newBoard[colume] !== (player)) return
+            colume += size;
         }
-        return isXTurn ? 'X' : 'O'
+        return player ;
     }
 
 
-    const whoWonAtRow = (newBoard, index) => {
+    const checkRow = (newBoard, row) => {
         const player = isXTurn ? 'X' : 'O'
-        index = Math.floor(index / size) * size;
+        row = Math.floor(row * size) ;
         for (let i = 0; i < size; i++) {
-            if (newBoard[index] !== (player))return
-            index++
+            if (newBoard[row] !== (player))return
+            row++
         }
         return player
     }
-    
+    const checkMainDiagonal = (newBoard, index) => {
+        const player = isXTurn ? 'X' : 'O'
+        const row = Math.floor(index / size)
+        const colume = Math.floor(index % size);
+        index = 0;
+        
+       
+        for (let i = 0; i < size; i++) {
+            if (newBoard[index] !== (player))return
+            index+= size +1;
+        }
+        return player;}
+        
+        const checkSeconderyDiagonal = (newBoard, index) => {
+            const player = isXTurn ? 'X' : 'O' 
+            console.log(index % (size -1) == 0);
+            
+            index = size -1;
+            for (let i = 0; i < size; i++) {
+                
+                if (newBoard[index] !== (player))return
+                index+= size-1;
+            }
+            return player;
+            
+        }
+        
+        
+        const checkBoard = (newBoard, index) => {
+            const row = Math.floor(index / size)
+            const colume = Math.floor(index % size);
+            if (steps + 1 >= (size * 2) - 1) {
+            const winRow =   checkRow(newBoard, row);
+            if(winRow)return winRow;
+            const winColumn = checkColumn(newBoard, colume);
+            if(winColumn)return winColumn;
+            if(row === colume) {
+                const diagonalRtl = checkMainDiagonal(newBoard, index);
+                if(diagonalRtl) return diagonalRtl;
+            }
+            if(index % (size -1) === 0){
+                const diagonalLtr = checkSeconderyDiagonal(newBoard, index);
+                if(diagonalLtr) return diagonalLtr;
+            }
+            }
+    }
+
+
     return (
         <div className={styles.container}>
             <span className={styles.buttons}>
@@ -107,7 +154,4 @@ export const PlayBoard = ({ }) => {
                 // const matrix = Array.from({ length: size }, () => Array(size).fill(1))
                 // const [board, setBoard] = useState( matrix);
                 // console.log(board);
-                // const checkBoard = (newBoard, index) => {
-                    //     if (steps + 1 >= (size * 2) - 1) {
-                        //         whoWonAtRow(newBoard, index)
-                        //         whoWonAtColumn(newBoard, index)
+                
