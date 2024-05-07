@@ -11,7 +11,7 @@ export const PlayBoard = ({ }) => {
     const navigate = useNavigate();
     const [isXTurn, setIsXTurn] = useState(player == 'X' ? true : false);
     const [steps, setSteps] = useState(0);
-
+    const [winner, setWinner] = useState(null);
     const [size, setSize] = useState(0);
     const [board, setBoard] = useState([]);
     
@@ -22,7 +22,12 @@ export const PlayBoard = ({ }) => {
         setSize(s);
         setBoard(Array(s * s).fill(null))
     };
-    
+    const restartGame = () => {
+        setBoard([]);
+        setWinner(null);
+        setSize(0);
+        setSteps(0);
+    }
     const play = (i) => {
         if (!board[i]) {
             let newBoard = [...board];
@@ -30,14 +35,10 @@ export const PlayBoard = ({ }) => {
             setBoard(newBoard);
             setIsXTurn(!isXTurn);
             setSteps(steps + 1);
-            const winner = checkBoard(newBoard, i)
-            winner&& console.log( '@@@@@@@ WINNER @@@@@@@@@@@@@',winner);
+            const isWin = checkBoard(newBoard, i)
+            isWin&& (setWinner(isWin));
         };
     }
-
-
-
-
     const checkColumn = (newBoard, colume) => {
         const player = isXTurn ? 'X' : 'O'
         for (let i = 0; i < size; i++) {
@@ -46,8 +47,6 @@ export const PlayBoard = ({ }) => {
         }
         return player ;
     }
-
-
     const checkRow = (newBoard, row) => {
         const player = isXTurn ? 'X' : 'O'
         row = Math.floor(row * size) ;
@@ -68,46 +67,45 @@ export const PlayBoard = ({ }) => {
             if (newBoard[index] !== (player))return
             index+= size +1;
         }
-        return player;}
-        
-        const checkSeconderyDiagonal = (newBoard, index) => {
-            const player = isXTurn ? 'X' : 'O' 
-            console.log(index % (size -1) == 0);
-            
-            index = size -1;
-            for (let i = 0; i < size; i++) {
-                
-                if (newBoard[index] !== (player))return
-                index+= size-1;
-            }
-            return player;
-            
-        }
-        
-        
-        const checkBoard = (newBoard, index) => {
-            const row = Math.floor(index / size)
-            const colume = Math.floor(index % size);
-            if (steps + 1 >= (size * 2) - 1) {
-            const winRow =   checkRow(newBoard, row);
-            if(winRow)return winRow;
-            const winColumn = checkColumn(newBoard, colume);
-            if(winColumn)return winColumn;
-            if(row === colume) {
-                const diagonalRtl = checkMainDiagonal(newBoard, index);
-                if(diagonalRtl) return diagonalRtl;
-            }
-            if(index % (size -1) === 0){
-                const diagonalLtr = checkSeconderyDiagonal(newBoard, index);
-                if(diagonalLtr) return diagonalLtr;
-            }
-            }
+        return player;
     }
+    const checkSeconderyDiagonal = (newBoard, index) => {
+        const player = isXTurn ? 'X' : 'O' 
+        console.log(index % (size -1) == 0);
+        
+        index = size -1;
+        for (let i = 0; i < size; i++) {
+            
+            if (newBoard[index] !== (player))return
+            index+= size-1;
+        }
+        return player;
+        
+    }
+    const checkBoard = (newBoard, index) => {
+        const row = Math.floor(index / size)
+        const colume = Math.floor(index % size);
+        if (steps + 1 >= (size * 2) - 1) {
+        const winRow =   checkRow(newBoard, row);
+        if(winRow)return winRow;
+        const winColumn = checkColumn(newBoard, colume);
+        if(winColumn)return winColumn;
+        if(row === colume) {
+            const diagonalRtl = checkMainDiagonal(newBoard, index);
+            if(diagonalRtl) return diagonalRtl;
+        }
+        if(index % (size -1) === 0){
+            const diagonalLtr = checkSeconderyDiagonal(newBoard, index);
+            if(diagonalLtr) return diagonalLtr;
+        }
+        }
+}
 
 
     return (
         <div className={styles.container}>
             <span className={styles.buttons}>
+            {winner&&<div onClick={restartGame} className={styles.popup}>  THE WINNER IS <img  src={`../../../assets/${winner}.svg`} width={'50px'} /> </div>}
                 <button value='3' className={styles.text} onClick={handleClick} >3</button>
                 <button value='4' className={styles.text} onClick={handleClick} >4</button>
                 <button value='5' className={styles.text} onClick={handleClick} >5</button></span>
