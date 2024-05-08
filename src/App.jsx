@@ -4,12 +4,22 @@ import { WelcomePage } from "./pages/WelcomePage"
 import { ChoosePlayerPage } from "./pages/ChoosePlayerPage";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { PlayBoard } from "./pages/PlayBoard";
+import { JoinGame } from "./pages/JoinGame";
+import { Waiting } from "./pages/Waiting";
 export const PlayerContext2 = createContext(true)
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <MenuPage />,
+  },
+  {
+    path: "joingame",
+    element: <JoinGame />,
+  },
+  {
+    path: "waiting",
+    element: <Waiting/>,
   },
   {
     path: "chooseplayer",
