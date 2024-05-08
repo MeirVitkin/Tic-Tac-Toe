@@ -15,11 +15,8 @@ const checkRow = (newBoard, row, size, player) => {
     }
     return true
 }
-const checkMainDiagonal = (newBoard, index, size, player) => {
-    const row = Math.floor(index / size)
-    const colume = Math.floor(index % size);
-    index = 0;
-
+const checkMainDiagonal = (newBoard, size, player) => {
+    let index = 0;
 
     for (let i = 0; i < size; i++) {
         if (newBoard[index] !== (player)) return
@@ -27,27 +24,26 @@ const checkMainDiagonal = (newBoard, index, size, player) => {
     }
     return true;
 }
-const checkSeconderyDiagonal = (newBoard, index, size, player) => {
+const checkSeconderyDiagonal = (newBoard, size, player) => {
+   let index = size - 1;
 
-    index = size - 1;
     for (let i = 0; i < size; i++) {
-
         if (newBoard[index] !== (player)) return
         index += size - 1;
     }
     return true;
 
 }
-export const checkBoard = (newBoard, index, size, player) => {
+export const checkBoard = (newBoard, index, size, player) => { 
     const row = Math.floor(index / size)
     const colume = Math.floor(index % size);
     if (checkRow(newBoard, row, size, player)) return true;
     if (checkColumn(newBoard, colume, size, player)) return true;
     if (row === colume) {
-        if (checkMainDiagonal(newBoard, index, size, player)) return true;
+        if (checkMainDiagonal(newBoard, size, player)) return true;
     }
     if (index % (size - 1) === 0) {
-        if (checkSeconderyDiagonal(newBoard, index, size, player)) return true;
+        if (checkSeconderyDiagonal(newBoard, size, player)) return true;
     }
 
 }
