@@ -1,15 +1,17 @@
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Board } from '../../component/Board'
 import { Square } from '../../component/Square'
 import styles from './style.module.scss'
 import { useContext, useState } from 'react'
 import { Btn } from '../../component/Btn'
-import {PlayerContext2} from '../../App'
+import {PlayerContext} from '../../App'
 
 
 export const ChoosePlayerPage = () => {
-    const { setPlayer, player } = useContext(PlayerContext2 )
+    const { setPlayer, player } = useContext(PlayerContext )
     const navigate = useNavigate();
+    const location = useLocation();
+     const solo = location.state.solo;
     
     const handleClick = (value) => {
         setPlayer(value)
@@ -32,7 +34,7 @@ export const ChoosePlayerPage = () => {
                         </Square></div>
                 </Board> </div>
             {(player) && (
-                <div className={styles.btn} onClick={() => navigate('/playboard')} >
+                <div className={styles.btn} onClick={() => navigate(solo?'/playboardsolo' :'/playboard')} >
                     <Btn>
                         <p className={styles.text} >LET'S PLSY</p>
                     </Btn>

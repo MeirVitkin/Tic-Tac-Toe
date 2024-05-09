@@ -7,8 +7,8 @@ import { useContext, useState } from 'react';
 import { PlayerContext } from '../../App';
 import { checkBoard } from '../../functions/checkBoard';
 
-export const PlayBoard = ({ }) => {
-    const { player, setPlayer, socket } = useContext(PlayerContext);
+export const PlayBoardSolo = ({ }) => {
+    const { player, setPlayer } = useContext(PlayerContext)
     const navigate = useNavigate();
     const [isXTurn, setIsXTurn] = useState(player == 'X' ? true : false);
     const [steps, setSteps] = useState(0);
@@ -18,14 +18,9 @@ export const PlayBoard = ({ }) => {
 
 
     const craeteBoard = (e) => {
-        const size = Number(e.target.value)
-        socket.emit('startGame' , size);
-        socket.on('getBoard',(board)=>{
-            setBoard(board);
-        })
-
-        // setSize(s);
-        // setBoard(Array(s * s).fill(null))
+        const s = Number(e.target.value)
+        setSize(s);
+        setBoard(Array(s * s).fill(null))
     };
     
     const play = (i) => {

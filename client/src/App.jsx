@@ -6,7 +6,11 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { PlayBoard } from "./pages/PlayBoard";
 import { JoinGame } from "./pages/JoinGame";
 import { Waiting } from "./pages/Waiting";
-export const PlayerContext2 = createContext(true)
+import io from 'socket.io-client';
+import { PlayBoardSolo } from "./pages/‏‏PlayBoardSolo";
+const socket = io('http://localhost:3000', {autoConnect: false});
+
+export const PlayerContext = createContext(io())
 
 const router = createBrowserRouter([
   {
@@ -19,7 +23,7 @@ const router = createBrowserRouter([
   },
   {
     path: "waiting",
-    element: <Waiting/>,
+    element: <Waiting />,
   },
   {
     path: "chooseplayer",
@@ -29,26 +33,23 @@ const router = createBrowserRouter([
     path: "playboard",
     element: <PlayBoard />,
   },
+  {
+    path: "playboardsolo",
+    element: <PlayBoardSolo />,
+  },
 ]);
 
 
 function App() {
-  const [startGame, setStartGame] = useState(true);
   const [player, setPlayer] = useState(null);
-  useEffect(() => {
-    setTimeout(() => setStartGame(!startGame), 2000);
-  }, [])
-  return (
-    <PlayerContext2.Provider value={{ player, setPlayer }}>
-      <div>
-        <RouterProvider router={router} />
-        {/* <ChoosePlayerPage/>  */}
-        {/* {startGame ? (
-        <WelcomePage />
-      ):<MenuPage />} */}
 
-      </div>
-    </PlayerContext2.Provider>
+  useEffect(()=>{
+    return ()=> socket.disconnect() }, [])
+  
+  return (
+    <PlayerContext.Provider value={{ player, setPlayer , socket}}>
+        <RouterProvider router={router} />
+    </PlayerContext.Provider>
   )
 }
 
