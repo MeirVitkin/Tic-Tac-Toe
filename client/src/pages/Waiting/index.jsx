@@ -8,12 +8,10 @@ import { useContext } from 'react';
 export const Waiting = () => {
   const { socket } = useContext(PlayerContext);
   const location = useLocation();
-  console.log(location.state.number);
   const navigate = useNavigate();
 
   socket.on("join-room", (isJoined) => {
     if (isJoined) {
-      console.log('isJoined', isJoined);
       navigate('/chooseplayer', { state: { solo: false, creator: true, roomNum: isJoined } })
     }
   })

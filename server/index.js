@@ -49,6 +49,10 @@ io.on('connection', (socket) => {
         io.emit('navigate-to-play-board')
     } )
 
+    socket.on('start-game', (boardSize)=>{
+        io.emit( 'get-board', boardSize)
+    })
+
 
 
 

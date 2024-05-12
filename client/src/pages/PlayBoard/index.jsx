@@ -15,14 +15,16 @@ export const PlayBoard = ({ }) => {
     const [winner, setWinner] = useState(null);
     const [boardSize, setSize] = useState(0);
     const [board, setBoard] = useState([]);
+    socket.on('get-board',(boardSize)=>{
+        console.log(boardSize);
+        setBoard(Array(boardSize * boardSize).fill(null));
+        setSize(boardSize)
+    })
 
 
     const craeteBoard = (e) => {
         const size = Number(e.target.value)
-        socket.emit('startGame' , size);
-        socket.on('getBoard',(board)=>{
-            setBoard(board);
-        })
+        socket.emit('start-game' , size);
 
         // setSize(s);
         // setBoard(Array(s * s).fill(null))
@@ -67,7 +69,7 @@ export const PlayBoard = ({ }) => {
                     )) : null}
 
                 </div>
-                <div className={styles.btn} onClick={() => { setPlayer(null); navigate(-1) }} >
+                <div className={styles.btn} onClick={() => { setPlayer( prev =>({...prev,play:null}) ), navigate(-1) }} >
                     <Btn>
                         <p className={styles.text} >BACK</p>
                     </Btn>
