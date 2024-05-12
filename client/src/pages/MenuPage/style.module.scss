@@ -6,6 +6,7 @@
     @extend .flex-center;
 }
 
+
 .btn {
     @extend .flex-center;
     width: 350px;
@@ -16,4 +17,9 @@
         @extend .txt;
         font-size: 30px;
     }
+}
+.settingBtn{
+    position: absolute;
+    bottom: 15px;
+    right : 15px;
 }

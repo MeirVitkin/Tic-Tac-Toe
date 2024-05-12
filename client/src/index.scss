@@ -36,12 +36,12 @@ a{
 
 }
 ::-webkit-scrollbar{
-  width: 5px;
-  background-color: var(--text-color);
+  width: 0px;
+  // background-color: var(--text-color);
 }
-::-webkit-scrollbar-thumb{
-  background-color: var(--primary-color);
-}
+// ::-webkit-scrollbar-thumb{
+//   background-color: var(--primary-color);
+// }
 
 
 

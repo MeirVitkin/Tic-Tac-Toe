@@ -16,7 +16,7 @@ export const JoinGame = () => {
     socket.emit('join-room', input);
     socket.on('join-room', (foundRoom) => {
 
-      foundRoom ? navigate('/chooseplayer',{state:{solo:false}}) : alert('Room not found')
+      foundRoom ? navigate('/chooseplayer', { state: { solo: false, roomNum: input, creator: false } }) : alert('Room not found')
     })
   }
 

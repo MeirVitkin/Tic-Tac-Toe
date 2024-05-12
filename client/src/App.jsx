@@ -8,6 +8,7 @@ import { JoinGame } from "./pages/JoinGame";
 import { Waiting } from "./pages/Waiting";
 import io from 'socket.io-client';
 import { PlayBoardSolo } from "./pages/‏‏PlayBoardSolo";
+import { Setting } from "./pages/setting";
 const socket = io('http://localhost:3000', {autoConnect: false});
 
 export const PlayerContext = createContext(io())
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
     element: <Waiting />,
   },
   {
+    path: "setting",
+    element: <Setting />,
+  },
+  {
     path: "chooseplayer",
     element: <ChoosePlayerPage />,
   },
@@ -41,7 +46,7 @@ const router = createBrowserRouter([
 
 
 function App() {
-  const [player, setPlayer] = useState(null);
+  const [player, setPlayer] = useState({});
 
   useEffect(()=>{
     return ()=> socket.disconnect() }, [])

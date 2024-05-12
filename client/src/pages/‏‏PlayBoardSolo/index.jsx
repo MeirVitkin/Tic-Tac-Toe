@@ -10,7 +10,7 @@ import { checkBoard } from '../../functions/checkBoard';
 export const PlayBoardSolo = ({ }) => {
     const { player, setPlayer } = useContext(PlayerContext)
     const navigate = useNavigate();
-    const [isXTurn, setIsXTurn] = useState(player == 'X' ? true : false);
+    const [isXTurn, setIsXTurn] = useState(player.play == 'X' ? true : false);
     const [steps, setSteps] = useState(0);
     const [winner, setWinner] = useState(null);
     const [boardSize, setSize] = useState(0);

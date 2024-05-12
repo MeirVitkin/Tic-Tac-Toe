@@ -11,20 +11,21 @@ export const Waiting = () => {
   console.log(location.state.number);
   const navigate = useNavigate();
 
-  socket.on("join-room", (isJoined)=>{
-    if(isJoined){
-      navigate('/chooseplayer' , {state:{solo:false}})
+  socket.on("join-room", (isJoined) => {
+    if (isJoined) {
+      console.log('isJoined', isJoined);
+      navigate('/chooseplayer', { state: { solo: false, creator: true, roomNum: isJoined } })
     }
   })
 
   return (
     <div className={styles.container}>
-      <img onClick={() =>{  navigate(-1)}} className={styles.back} src="../../../assets/backBtn.png" width={'80px'} />
+      <img onClick={() => { navigate(-1) }} className={styles.back} src="../../../assets/backBtn.png" width={'80px'} />
       <div className={styles.border}>
         <span className={styles.text} > YOUR CODE</span>
         <div className={styles.code} >{location.state.number}</div>
       </div>
-      <Loader/>
+      <Loader />
       <div className={styles.text} > WAITING FOR OPPONENT</div>
 
 

@@ -30,6 +30,7 @@ export const MenuPage = () => {
                           <p className={styles.text} >PLAY WITH A FRIEND</p>
                       </Btn>
                   </div>
+            <img onClick={() =>{  navigate('/setting')}} className={styles.settingBtn} src="../../../assets/setting.svg" width={'80px'} />
       </div>
     )}
     </>
